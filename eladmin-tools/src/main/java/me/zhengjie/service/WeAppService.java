@@ -18,8 +18,12 @@ package me.zhengjie.service;
 import me.zhengjie.domain.AlipayConfig;
 import me.zhengjie.domain.WeAppConfig;
 import me.zhengjie.domain.vo.TradeVo;
+import org.springframework.data.jpa.repository.Query;
 
+import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * 小程序接口类
@@ -35,6 +39,10 @@ public interface WeAppService {
     /**
      * 查询配置
      */
-    Map getConfig(Object obj);
+    Map getConfig(String keys);
 
+    /**
+     * 查询轮播图
+     */
+    Map getBanner(String type);
 }

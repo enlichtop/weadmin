@@ -18,10 +18,23 @@ package me.zhengjie.repository;
 import me.zhengjie.domain.AlipayConfig;
 import me.zhengjie.domain.WeAppConfig;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 /**
  * @author Zheng Jie
  * @date 2018-12-31
  */
 public interface WeAppRepository extends JpaRepository<WeAppConfig,String> {
+
+
+	/**
+	 * 查询配置
+	 */
+	@Query(value = "SELECT m.* FROM tool_weapp_config m WHERE " +
+			"m.id IN ?1 ",nativeQuery = true)
+	LinkedHashSet<WeAppConfig> findConfigById(Set<String> configIds);
+
 }

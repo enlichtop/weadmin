@@ -3,6 +3,8 @@ package me.zhengjie.domain.vo;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.sql.Timestamp;
+
 /**
  * @ClassName KeyValueVo
  * @Description TODO
@@ -15,4 +17,6 @@ import lombok.Setter;
 public class KeyValueVo {
 	private String key;
 	private Object value;
+	private String remark;
+	private Timestamp updateTime;
 }

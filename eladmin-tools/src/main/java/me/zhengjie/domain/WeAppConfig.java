@@ -24,10 +24,11 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
+import java.sql.Timestamp;
 
 /**
  * 小程序配置类
- * @author Zheng Jie
+ * @author
  * @date 2018-12-31
  */
 @Data
@@ -43,5 +44,17 @@ public class WeAppConfig implements Serializable {
     @Column(name = "CONFIGID")
     @ApiModelProperty(value = "CONFIGID", hidden = true)
     private String configId;
+
+    @Column(name = "CONFIGNAME")
+    @ApiModelProperty(value = "CONFIGNAME", hidden = true)
+    private String configName;
+
+    @Column(name = "CONFIGDESC")
+    @ApiModelProperty(value = "配置描述")
+    private String configDesc;
+
+    @Column(name = "UPDATETIME")
+    @ApiModelProperty(value = "时间戳")
+    private Timestamp updateTime;
 
 }

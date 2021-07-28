@@ -15,6 +15,7 @@ import springfox.documentation.annotations.ApiIgnore;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -51,6 +52,15 @@ public class WeAppController {
 	public ResponseEntity<Map> getConfig(HttpServletRequest request, HttpServletResponse response) {
 		String keys = request.getParameter("keys");
 		return new ResponseEntity<>(weAppService.getConfig(keys), HttpStatus.OK);
+	}
+
+	@ApiIgnore
+	@RequestMapping("/banner/list")
+	@AnonymousAccess
+	@ApiOperation("轮播图获取")
+	public ResponseEntity<Map> getBanner(HttpServletRequest request, HttpServletResponse response) {
+		String type = request.getParameter("type");
+		return new ResponseEntity<>(weAppService.getBanner(type), HttpStatus.OK);
 	}
 
 }
