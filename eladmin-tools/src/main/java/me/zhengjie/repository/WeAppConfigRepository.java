@@ -27,7 +27,7 @@ import java.util.Set;
  * @author Zheng Jie
  * @date 2018-12-31
  */
-public interface WeAppRepository extends JpaRepository<WeAppConfig,String> {
+public interface WeAppConfigRepository extends JpaRepository<WeAppConfig,String> {
 
 
 	/**

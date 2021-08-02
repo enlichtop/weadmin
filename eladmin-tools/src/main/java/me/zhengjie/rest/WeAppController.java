@@ -30,7 +30,7 @@ import java.util.Map;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/weApp")
-@Api(tags = "工具：支付宝管理")
+@Api(tags = "小程序控制层")
 public class WeAppController {
 
 
@@ -45,6 +45,13 @@ public class WeAppController {
 		return new ResponseEntity<>(weAppService.find(), HttpStatus.OK);
 	}
 
+
+	/**
+	 * 批量查询小程序配置
+	 * @param request
+	 * @param response
+	 * @return
+	 */
 	@ApiIgnore
 	@RequestMapping("/getConfig")
 	@AnonymousAccess
@@ -54,6 +61,12 @@ public class WeAppController {
 		return new ResponseEntity<>(weAppService.getConfig(keys), HttpStatus.OK);
 	}
 
+	/**
+	 * 获取轮播图
+	 * @param request
+	 * @param response
+	 * @return
+	 */
 	@ApiIgnore
 	@RequestMapping("/banner/list")
 	@AnonymousAccess
@@ -61,6 +74,19 @@ public class WeAppController {
 	public ResponseEntity<Map> getBanner(HttpServletRequest request, HttpServletResponse response) {
 		String type = request.getParameter("type");
 		return new ResponseEntity<>(weAppService.getBanner(type), HttpStatus.OK);
+	}
+
+
+	/**
+	 * 获取目录
+	 * @return
+	 */
+	@ApiIgnore
+	@RequestMapping("/shop/goods/category/all")
+	@AnonymousAccess
+	@ApiOperation("获取目录")
+	public ResponseEntity<Map> getAllCategory() {
+		return new ResponseEntity<>(weAppService.getAllCategory(), HttpStatus.OK);
 	}
 
 }

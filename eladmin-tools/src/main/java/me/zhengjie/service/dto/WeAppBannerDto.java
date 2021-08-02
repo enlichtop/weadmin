@@ -16,15 +16,15 @@ import java.sql.Timestamp;
 @Setter
 public class WeAppBannerDto {
 	private String id;
-	private String businessid;
-	private Timestamp createtime;
-	private Timestamp updatetime;
-	private String linkurl;
+	private String businessId;
+	private Timestamp createTime;
+	private Timestamp updateTime;
+	private String linkUrl;
 	private Integer sortno;
-	private String picurl;
+	private String picUrl;
 	private String status;
-	private String statusstr;
+	private String statusStr;
 	private String title;
 	private String type;
-	private String userid;
+	private String userId;
 }

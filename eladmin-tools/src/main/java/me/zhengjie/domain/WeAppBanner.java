@@ -1,6 +1,5 @@
 package me.zhengjie.domain;
 
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -19,17 +18,17 @@ import java.util.Objects;
 @Table(name = "weapp_banner")
 public class WeAppBanner {
 	private String id;
-	private String businessid;
-	private Timestamp createtime;
-	private Timestamp updatetime;
-	private String linkurl;
+	private String businessId;
+	private Timestamp createTime;
+	private Timestamp updateTime;
+	private String linkUrl;
 	private Integer sortno;
-	private String picurl;
+	private String picUrl;
 	private String status;
-	private String statusstr;
+	private String statusStr;
 	private String title;
 	private String type;
-	private String userid;
+	private String userId;
 
 	@Id
 	@Column(name = "ID")
@@ -43,42 +42,42 @@ public class WeAppBanner {
 
 	@Basic
 	@Column(name = "BUSINESSID")
-	public String getBusinessid() {
-		return businessid;
+	public String getBusinessId() {
+		return businessId;
 	}
 
-	public void setBusinessid(String businessid) {
-		this.businessid = businessid;
+	public void setBusinessId(String businessid) {
+		this.businessId = businessid;
 	}
 
 	@Basic
 	@Column(name = "CREATETIME")
-	public Timestamp getCreatetime() {
-		return createtime;
+	public Timestamp getCreateTime() {
+		return createTime;
 	}
 
-	public void setCreatetime(Timestamp createtime) {
-		this.createtime = createtime;
+	public void setCreateTime(Timestamp createtime) {
+		this.createTime = createtime;
 	}
 
 	@Basic
 	@Column(name = "UPDATETIME")
-	public Timestamp getUpdatetime() {
-		return updatetime;
+	public Timestamp getUpdateTime() {
+		return updateTime;
 	}
 
-	public void setUpdatetime(Timestamp updatetime) {
-		this.updatetime = updatetime;
+	public void setUpdateTime(Timestamp updatetime) {
+		this.updateTime = updatetime;
 	}
 
 	@Basic
 	@Column(name = "LINKURL")
-	public String getLinkurl() {
-		return linkurl;
+	public String getLinkUrl() {
+		return linkUrl;
 	}
 
-	public void setLinkurl(String linkurl) {
-		this.linkurl = linkurl;
+	public void setLinkUrl(String linkurl) {
+		this.linkUrl = linkurl;
 	}
 
 	@Basic
@@ -93,12 +92,12 @@ public class WeAppBanner {
 
 	@Basic
 	@Column(name = "PICURL")
-	public String getPicurl() {
-		return picurl;
+	public String getPicUrl() {
+		return picUrl;
 	}
 
-	public void setPicurl(String picurl) {
-		this.picurl = picurl;
+	public void setPicUrl(String picurl) {
+		this.picUrl = picurl;
 	}
 
 	@Basic
@@ -113,12 +112,12 @@ public class WeAppBanner {
 
 	@Basic
 	@Column(name = "STATUSSTR")
-	public String getStatusstr() {
-		return statusstr;
+	public String getStatusStr() {
+		return statusStr;
 	}
 
-	public void setStatusstr(String statusstr) {
-		this.statusstr = statusstr;
+	public void setStatusStr(String statusstr) {
+		this.statusStr = statusstr;
 	}
 
 	@Basic
@@ -143,12 +142,12 @@ public class WeAppBanner {
 
 	@Basic
 	@Column(name = "USERID")
-	public String getUserid() {
-		return userid;
+	public String getUserId() {
+		return userId;
 	}
 
-	public void setUserid(String userid) {
-		this.userid = userid;
+	public void setUserId(String userid) {
+		this.userId = userid;
 	}
 
 	@Override
@@ -157,21 +156,21 @@ public class WeAppBanner {
 		if (o == null || getClass() != o.getClass()) return false;
 		WeAppBanner that = (WeAppBanner) o;
 		return Objects.equals(id, that.id) &&
-				Objects.equals(businessid, that.businessid) &&
-				Objects.equals(createtime, that.createtime) &&
-				Objects.equals(updatetime, that.updatetime) &&
-				Objects.equals(linkurl, that.linkurl) &&
+				Objects.equals(businessId, that.businessId) &&
+				Objects.equals(createTime, that.createTime) &&
+				Objects.equals(updateTime, that.updateTime) &&
+				Objects.equals(linkUrl, that.linkUrl) &&
 				Objects.equals(sortno, that.sortno) &&
-				Objects.equals(picurl, that.picurl) &&
+				Objects.equals(picUrl, that.picUrl) &&
 				Objects.equals(status, that.status) &&
-				Objects.equals(statusstr, that.statusstr) &&
+				Objects.equals(statusStr, that.statusStr) &&
 				Objects.equals(title, that.title) &&
 				Objects.equals(type, that.type) &&
-				Objects.equals(userid, that.userid);
+				Objects.equals(userId, that.userId);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id, businessid, createtime, updatetime, linkurl, sortno, picurl, status, statusstr, title, type, userid);
+		return Objects.hash(id, businessId, createTime, updateTime, linkUrl, sortno, picUrl, status, statusStr, title, type, userId);
 	}
 }

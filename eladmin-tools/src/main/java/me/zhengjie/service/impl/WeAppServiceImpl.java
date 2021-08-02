@@ -15,17 +15,20 @@
  */
 package me.zhengjie.service.impl;
 
-import com.alibaba.fastjson.JSONObject;
 import lombok.RequiredArgsConstructor;
 import me.zhengjie.domain.WeAppBanner;
+import me.zhengjie.domain.WeAppCategory;
 import me.zhengjie.domain.WeAppConfig;
 import me.zhengjie.domain.vo.KeyValueVo;
 import me.zhengjie.repository.WeAppBannerRepository;
-import me.zhengjie.repository.WeAppRepository;
+import me.zhengjie.repository.WeAppCategoryRepository;
+import me.zhengjie.repository.WeAppConfigRepository;
 import me.zhengjie.service.WeAppService;
 import me.zhengjie.service.dto.WeAppBannerDto;
+import me.zhengjie.service.dto.WeAppCategoryDto;
 import me.zhengjie.service.dto.WeAppConfigDto;
 import me.zhengjie.service.mapstruct.WeAppBannerMapper;
+import me.zhengjie.service.mapstruct.WeAppCategoryMapper;
 import me.zhengjie.service.mapstruct.WeAppConfigMapper;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
@@ -42,15 +45,17 @@ import java.util.stream.Collectors;
 @CacheConfig(cacheNames = "weApp")
 public class WeAppServiceImpl implements WeAppService {
 
-    private final WeAppRepository weAppRepository;
+    private final WeAppConfigRepository weAppConfigRepository;
     private final WeAppBannerRepository bannerRepository;
+    private final WeAppCategoryRepository categoryRepository;
     private final WeAppConfigMapper configMapper;
     private final WeAppBannerMapper bannerMapper;
+    private final WeAppCategoryMapper categoryMapper;
 
     @Override
     @Cacheable(key = "'config'")
     public WeAppConfig find() {
-        Optional<WeAppConfig> weAppConfig = weAppRepository.findById("Init");
+        Optional<WeAppConfig> weAppConfig = weAppConfigRepository.findById("Init");
         return weAppConfig.orElseGet(WeAppConfig::new);
     }
 
@@ -60,7 +65,7 @@ public class WeAppServiceImpl implements WeAppService {
 
         String[] split = keys.split(",");
         Set<String> keysSet = new HashSet<>(Arrays.asList(split));
-        LinkedHashSet<WeAppConfig> result = weAppRepository.findConfigById(keysSet);
+        LinkedHashSet<WeAppConfig> result = weAppConfigRepository.findConfigById(keysSet);
         List<WeAppConfigDto> mapResult = result.stream().map(configMapper::toDto).collect(Collectors.toList());
 
         ArrayList dataList = new ArrayList();
@@ -87,8 +92,25 @@ public class WeAppServiceImpl implements WeAppService {
 		retMap.put("data",collect);
 
 		if (collect.size() == 0) {
+			retMap.put("code", 0);
+		}
+		return retMap;
+	}
+
+	@Override
+	public Map getAllCategory() {
+		LinkedHashSet<WeAppCategory> allCategory = categoryRepository.getAllCategory();
+		HashMap retMap = new HashMap();
+		retMap.put("code", 0);
+		List<WeAppCategoryDto> collect =
+				allCategory.stream().map(categoryMapper::toDto).collect(Collectors.toList());
+		retMap.put("data",collect);
+
+		if (collect.size() == 0) {
 			retMap.put("code", -1);
 		}
+
+		retMap.put("message", "success");
 		return retMap;
 	}
 

@@ -45,4 +45,9 @@ public interface WeAppService {
      * 查询轮播图
      */
     Map getBanner(String type);
+
+    /**
+     * 查询所有目录
+     */
+    Map getAllCategory();
 }
