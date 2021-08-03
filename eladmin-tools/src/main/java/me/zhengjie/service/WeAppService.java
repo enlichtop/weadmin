@@ -50,4 +50,10 @@ public interface WeAppService {
      * 查询所有目录
      */
     Map getAllCategory();
+
+    /**
+     * 查询商品
+     */
+    Map getGoods(Map<String, String> goodsType);
+
 }

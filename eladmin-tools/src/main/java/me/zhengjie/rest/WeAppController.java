@@ -15,6 +15,7 @@ import springfox.documentation.annotations.ApiIgnore;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -87,6 +88,21 @@ public class WeAppController {
 	@ApiOperation("获取目录")
 	public ResponseEntity<Map> getAllCategory() {
 		return new ResponseEntity<>(weAppService.getAllCategory(), HttpStatus.OK);
+	}
+
+	/**
+	 * 获取推荐商品
+	 * @return
+	 */
+	@ApiIgnore
+	@RequestMapping("/shop/goods/list")
+	@AnonymousAccess
+	@ApiOperation("获取商品")
+	public ResponseEntity<Map> getGoods(HttpServletRequest request, HttpServletResponse response) {
+		String recommendStatus = request.getParameter("recommendStatus");
+		HashMap<String, String> param = new HashMap<>();
+		param.put("recommendStatus", recommendStatus);
+		return new ResponseEntity<>(weAppService.getGoods(param), HttpStatus.OK);
 	}
 
 }
