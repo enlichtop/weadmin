@@ -56,4 +56,13 @@ public interface WeAppService {
      */
     Map getGoods(Map<String, String> goodsType);
 
+    /**
+     * 获取优惠券
+     */
+    Map getCoupons();
+
+    /**
+     * 获取注意
+     */
+    Map getNotice();
 }

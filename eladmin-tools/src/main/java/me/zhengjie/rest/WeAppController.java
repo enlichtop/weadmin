@@ -105,4 +105,28 @@ public class WeAppController {
 		return new ResponseEntity<>(weAppService.getGoods(param), HttpStatus.OK);
 	}
 
+
+	/**
+	 * 获取优惠券
+	 * @return
+	 */
+	@ApiIgnore
+	@RequestMapping("/discounts/coupons")
+	@AnonymousAccess
+	@ApiOperation("获取优惠券")
+	public ResponseEntity<Map> getCoupons() {
+		return new ResponseEntity<>(weAppService.getCoupons(), HttpStatus.OK);
+	}
+
+	/**
+	 * 获取优惠券
+	 * @return
+	 */
+	@ApiIgnore
+	@RequestMapping("/notice/list")
+	@AnonymousAccess
+	@ApiOperation("获取注意")
+	public ResponseEntity<Map> getNotice() {
+		return new ResponseEntity<>(weAppService.getNotice(), HttpStatus.OK);
+	}
 }

@@ -16,27 +16,14 @@
 package me.zhengjie.service.impl;
 
 import lombok.RequiredArgsConstructor;
-import me.zhengjie.domain.WeAppBanner;
-import me.zhengjie.domain.WeAppCategory;
-import me.zhengjie.domain.WeAppConfig;
-import me.zhengjie.domain.WeAppGoods;
+import me.zhengjie.domain.*;
 import me.zhengjie.domain.vo.KeyValueVo;
-import me.zhengjie.repository.WeAppBannerRepository;
-import me.zhengjie.repository.WeAppCategoryRepository;
-import me.zhengjie.repository.WeAppConfigRepository;
-import me.zhengjie.repository.WeAppGoodsRepository;
+import me.zhengjie.repository.*;
 import me.zhengjie.service.WeAppService;
-import me.zhengjie.service.dto.WeAppBannerDto;
-import me.zhengjie.service.dto.WeAppCategoryDto;
-import me.zhengjie.service.dto.WeAppConfigDto;
-import me.zhengjie.service.dto.WeAppGoodsDto;
-import me.zhengjie.service.mapstruct.WeAppBannerMapper;
-import me.zhengjie.service.mapstruct.WeAppCategoryMapper;
-import me.zhengjie.service.mapstruct.WeAppConfigMapper;
-import me.zhengjie.service.mapstruct.WeAppGoodsMapper;
+import me.zhengjie.service.dto.*;
+import me.zhengjie.service.mapstruct.*;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -54,10 +41,15 @@ public class WeAppServiceImpl implements WeAppService {
     private final WeAppBannerRepository bannerRepository;
     private final WeAppCategoryRepository categoryRepository;
     private final WeAppGoodsRepository goodsRepository;
+    private final WeAppCouponsRepository couponsRepository;
+    private final WeAppNoticeRepository noticeRepository;
+
     private final WeAppConfigMapper configMapper;
     private final WeAppBannerMapper bannerMapper;
     private final WeAppCategoryMapper categoryMapper;
     private final WeAppGoodsMapper goodsMapper;
+    private final WeAppCouponsMapper couponsMapper;
+    private final WeAppNoticeMapper noticeMapper;
 
     @Override
     @Cacheable(key = "'config'")
@@ -134,6 +126,44 @@ public class WeAppServiceImpl implements WeAppService {
 		List<WeAppGoodsDto> collect =
 				goods.stream().map(goodsMapper::toDto).collect(Collectors.toList());
 		retMap.put("data",collect);
+
+		if (collect.size() == 0) {
+			retMap.put("code", -1);
+		}
+
+		retMap.put("message", "success");
+		return retMap;
+	}
+
+	@Override
+	public Map getCoupons() {
+		LinkedHashSet<WeAppCoupons> coupons = couponsRepository.getCoupons();
+		HashMap retMap = new HashMap();
+		retMap.put("code", 0);
+		List<WeAppCouponsDto> collect =
+				coupons.stream().map(couponsMapper::toDto).collect(Collectors.toList());
+		retMap.put("data",collect);
+
+		if (collect.size() == 0) {
+			retMap.put("code", -1);
+		}
+
+		retMap.put("message", "success");
+		return retMap;
+	}
+
+	@Override
+	public Map getNotice() {
+		LinkedHashSet<WeAppNotice> coupons = noticeRepository.getNotice();
+		HashMap retMap = new HashMap();
+		retMap.put("code", 0);
+		List<WeAppNoticeDto> collect =
+				coupons.stream().map(noticeMapper::toDto).collect(Collectors.toList());
+		HashMap retData = new HashMap();
+		retData.put("dataList", collect);
+		retData.put("totalRow", collect.size());
+		retData.put("totalPage", collect.size());
+		retMap.put("data",retData);
 
 		if (collect.size() == 0) {
 			retMap.put("code", -1);
