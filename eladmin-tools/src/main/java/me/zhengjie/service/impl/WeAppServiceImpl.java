@@ -43,6 +43,7 @@ public class WeAppServiceImpl implements WeAppService {
     private final WeAppGoodsRepository goodsRepository;
     private final WeAppCouponsRepository couponsRepository;
     private final WeAppNoticeRepository noticeRepository;
+    private final WeAppSkuListRepository skuListRepository;
 
     private final WeAppConfigMapper configMapper;
     private final WeAppBannerMapper bannerMapper;
@@ -50,6 +51,7 @@ public class WeAppServiceImpl implements WeAppService {
     private final WeAppGoodsMapper goodsMapper;
     private final WeAppCouponsMapper couponsMapper;
     private final WeAppNoticeMapper noticeMapper;
+    private final WeAppSkuListMapper skuListMapper;
 
     @Override
     @Cacheable(key = "'config'")
@@ -171,6 +173,83 @@ public class WeAppServiceImpl implements WeAppService {
 
 		retMap.put("message", "success");
 		return retMap;
+	}
+
+	@Override
+	public Map getGoodsDetail(String goodsId) throws Exception {
+		LinkedHashSet<WeAppGoods> goods = goodsRepository.getGoodsById(goodsId);
+		HashMap retMap = new HashMap();
+		retMap.put("code", 0);
+		List<WeAppGoodsDto> collect =
+				goods.stream().map(goodsMapper::toDto).collect(Collectors.toList());
+		if (collect.size() == 0) {
+			throw new Exception();
+		}
+
+		LinkedHashSet<WeAppCategory> cate = categoryRepository.getCateById(collect.get(0).getCategoryId());
+		List<WeAppCategoryDto> cateCollect =
+				cate.stream().map(categoryMapper::toDto).collect(Collectors.toList());
+
+		HashMap retData = new HashMap();
+		retData.put("basicInfo", collect.get(0));
+		retData.put("category", cateCollect.get(0));
+		retData.put("content", "<p><img src=\"http://enlich.top:8009/img/f001.jpg\" alt=\"WiFi打印机\" />" +
+				"<img src=\"http://enlich.top:8009/img/f002.jpg\"" +
+				" alt=\"WiFi打印机优点\" /><img src=\"http://enlich.top:8009/img/f003.jpg\" " +
+				"alt=\"飞鹅打印机5大优势。优势一：智能自动接单，自动打印服务\" />" +
+				"<img src=\"http://enlich.top:8009/img/f004.jpg\" " +
+				"alt=\"优势二：无需手机、电脑、驱动，简单便利。优势三：稳定云服务器，技术团体监控\" />" +
+				"<img src=\"http://enlich.top:8009/img/f005.jpg\" " +
+				"alt=\"优势四：支持多种开发语言，技术对接。优势五：云打印不受地理位置与距离影响\" />" +
+				"<img src=\"\" " +
+				"alt=\"产品细节特色：简单明了按钮与指示灯\" />" +
+				"<img src=\"\" " +
+				"alt=\"WiFi背面图操作说明\" />" +
+				"<img src=\"\" " +
+				"alt=\"高效｜环保热敏打印头\" />" +
+				"<img src=\"\" " +
+				"alt=\"简洁｜便利易装纸设计\" />" +
+				"<img src=\"\" " +
+				"alt=\"安全｜自动多种切纸款式\" />" +
+				"<img src=\"\" " +
+				"alt=\"产品实拍\" /></p>");
+		retData.put("extJson", "");
+		retData.put("logistics", "");
+		retData.put("pics", "");
+		retData.put("pics2", "");
+
+		HashMap<String, Object> proHashMap1 = new HashMap<>();
+		proHashMap1.put("name", "4G");
+		HashMap<String, Object> proHashMap2 = new HashMap<>();
+		proHashMap2.put("name", "5G");
+		ArrayList faList1 = new ArrayList();
+		faList1.add(proHashMap1);
+		faList1.add(proHashMap2);
+		HashMap<String, Object> faMap1 = new HashMap<>();
+		faMap1.put("childsCurGoods", faList1);
+		faMap1.put("name", "网络类型");
+
+		ArrayList proRetList = new ArrayList();
+		proRetList.add(faMap1);
+		retData.put("properties", proRetList);
+
+		LinkedHashSet<WeAppSkuList> skuList = skuListRepository.getSkuList(goodsId);
+		retData.put("skuList", skuList);
+		retMap.put("data",retData);
+
+		if (collect.size() == 0) {
+			retMap.put("code", -1);
+		}
+
+		retMap.put("message", "success");
+		return retMap;
+	}
+
+
+
+	@Override
+	public Map getSkuList(String goodsId) {
+		return null;
 	}
 
 }

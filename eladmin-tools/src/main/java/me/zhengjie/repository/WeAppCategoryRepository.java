@@ -20,4 +20,10 @@ public interface WeAppCategoryRepository extends JpaRepository<WeAppCategory,Str
 	 */
 	@Query(value = "SELECT m.* FROM weapp_category m ", nativeQuery = true)
 	LinkedHashSet<WeAppCategory> getAllCategory();
+
+	/**
+	 * 根据id查询目录
+	 */
+	@Query(value = "SELECT m.* FROM weapp_category m WHERE id = ?1", nativeQuery = true)
+	LinkedHashSet<WeAppCategory> getCateById(Integer categoryId);
 }

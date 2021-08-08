@@ -129,4 +129,17 @@ public class WeAppController {
 	public ResponseEntity<Map> getNotice() {
 		return new ResponseEntity<>(weAppService.getNotice(), HttpStatus.OK);
 	}
+
+	/**
+	 * 获取商品详情
+	 * @return
+	 */
+	@ApiIgnore
+	@RequestMapping("/shop/goods/detail")
+	@AnonymousAccess
+	@ApiOperation("获取商品详情")
+	public ResponseEntity<Map> getNotice(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String goodsId = request.getParameter("id");
+		return new ResponseEntity<>(weAppService.getGoodsDetail(goodsId), HttpStatus.OK);
+	}
 }

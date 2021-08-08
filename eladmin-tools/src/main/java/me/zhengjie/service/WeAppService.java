@@ -65,4 +65,16 @@ public interface WeAppService {
      * 获取注意
      */
     Map getNotice();
+
+    /**
+     * 获取商品详情
+     * @param goodsId
+     * @return
+     */
+    Map getGoodsDetail(String goodsId) throws Exception;
+
+    /**
+     * 获取商品类型
+     */
+    Map getSkuList(String goodsId);
 }

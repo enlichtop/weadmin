@@ -21,4 +21,11 @@ public interface WeAppGoodsRepository extends JpaRepository<WeAppGoods,String> {
 	@Query(value = "SELECT m.* FROM weapp_goods m WHERE " +
 			"RECOMMENDSTATUS = 1",nativeQuery = true)
 	LinkedHashSet<WeAppGoods> getRecomGoods();
+
+	/**
+	 * 根据id查商品
+	 */
+	@Query(value = "SELECT m.* FROM weapp_goods m WHERE " +
+			"ID = ?1",nativeQuery = true)
+	LinkedHashSet<WeAppGoods> getGoodsById(String goodsId);
 }
