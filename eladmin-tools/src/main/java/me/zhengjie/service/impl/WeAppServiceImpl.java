@@ -15,6 +15,7 @@
  */
 package me.zhengjie.service.impl;
 
+import com.alibaba.druid.util.StringUtils;
 import lombok.RequiredArgsConstructor;
 import me.zhengjie.domain.*;
 import me.zhengjie.domain.vo.KeyValueVo;
@@ -22,7 +23,6 @@ import me.zhengjie.repository.*;
 import me.zhengjie.service.WeAppService;
 import me.zhengjie.service.dto.*;
 import me.zhengjie.service.mapstruct.*;
-import me.zhengjie.utils.StringUtils;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -122,15 +122,20 @@ public class WeAppServiceImpl implements WeAppService {
     	if ("1".equalsIgnoreCase(goodsType.get("recommendStatus"))) {
 		    goods = goodsRepository.getRecomGoods();
 	    } else {
-			String page = goodsType.get("page");
-			if (StringUtils.isEmpty(page)) {
-				page = "1";
+			int page = 0;
+			if (goodsType.get("page") != null) {
+    			page = Integer.parseInt(goodsType.get("page")) - 1;
 			}
-			String pageSize = goodsType.get("pageSize");
-			if (StringUtils.isEmpty(pageSize)) {
-				pageSize = "1";
+			int pageSize = 10;
+			if (goodsType.get("pageSize") != null) {
+				pageSize = Integer.parseInt(goodsType.get("pageSize"));
 			}
-			goods = goodsRepository.getRecomGoodsPage(page, pageSize);
+			String categoryId = goodsType.get("categoryId");
+			if (!StringUtils.isEmpty(categoryId)) {
+				goods = goodsRepository.getGoodsPageAndCate(page * pageSize, pageSize, categoryId);
+			} else {
+				goods = goodsRepository.getRecomGoodsPage(page * pageSize, pageSize);
+			}
 	    }
 		HashMap retMap = new HashMap();
 		retMap.put("code", 0);
@@ -202,7 +207,7 @@ public class WeAppServiceImpl implements WeAppService {
 		HashMap retData = new HashMap();
 		retData.put("basicInfo", collect.get(0));
 		retData.put("category", cateCollect.get(0));
-		retData.put("content", "<p><img src=\"http://enlich.top:8009/img/f001.jpg\" alt=\"WiFi打印机\" />" +
+		retData.put("content", "<p><img src=\"http://enlich.top:8009/img/f001.jpg\" alt=\"\" />" +
 				"<img src=\"http://enlich.top:8009/img/f002.jpg\"" +
 				" alt=\"WiFi打印机优点\" /><img src=\"http://enlich.top:8009/img/f003.jpg\" " +
 				"alt=\"飞鹅打印机5大优势。优势一：智能自动接单，自动打印服务\" />" +

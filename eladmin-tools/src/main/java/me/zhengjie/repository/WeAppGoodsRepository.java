@@ -33,6 +33,16 @@ public interface WeAppGoodsRepository extends JpaRepository<WeAppGoods,String> {
 	/**
 	 * 根据页码查商品
 	 */
-	@Query(value = "SELECT m.* FROM weapp_goods m LIMIT ?1",nativeQuery = true)
-	LinkedHashSet<WeAppGoods> getRecomGoodsPage(String page, String pageSize);
+	@Query(value = "SELECT m.* FROM weapp_goods m LIMIT ?1, ?2",nativeQuery = true)
+	LinkedHashSet<WeAppGoods> getRecomGoodsPage(int page, int pageSize);
+
+	/**
+	 * 根据页码+目录id
+	 * @param i
+	 * @param pageSize
+	 * @param categoryId
+	 * @return
+	 */
+	@Query(value = "SELECT m.* FROM weapp_goods m where categoryId = ?3 LIMIT ?1, ?2",nativeQuery = true)
+	LinkedHashSet<WeAppGoods> getGoodsPageAndCate(int i, int pageSize, String categoryId);
 }
