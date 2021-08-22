@@ -22,6 +22,7 @@ import me.zhengjie.repository.*;
 import me.zhengjie.service.WeAppService;
 import me.zhengjie.service.dto.*;
 import me.zhengjie.service.mapstruct.*;
+import me.zhengjie.utils.StringUtils;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -121,7 +122,15 @@ public class WeAppServiceImpl implements WeAppService {
     	if ("1".equalsIgnoreCase(goodsType.get("recommendStatus"))) {
 		    goods = goodsRepository.getRecomGoods();
 	    } else {
-    		goods = new LinkedHashSet<>();
+			String page = goodsType.get("page");
+			if (StringUtils.isEmpty(page)) {
+				page = "1";
+			}
+			String pageSize = goodsType.get("pageSize");
+			if (StringUtils.isEmpty(pageSize)) {
+				pageSize = "1";
+			}
+			goods = goodsRepository.getRecomGoodsPage(page, pageSize);
 	    }
 		HashMap retMap = new HashMap();
 		retMap.put("code", 0);

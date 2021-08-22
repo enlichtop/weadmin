@@ -99,9 +99,11 @@ public class WeAppController {
 	@AnonymousAccess
 	@ApiOperation("获取商品")
 	public ResponseEntity<Map> getGoods(HttpServletRequest request, HttpServletResponse response) {
-		String recommendStatus = request.getParameter("recommendStatus");
 		HashMap<String, String> param = new HashMap<>();
-		param.put("recommendStatus", recommendStatus);
+		param.put("recommendStatus", request.getParameter("recommendStatus"));
+		param.put("categoryId", request.getParameter("categoryId"));
+		param.put("page", request.getParameter("page"));
+		param.put("pageSize", request.getParameter("pageSize"));
 		return new ResponseEntity<>(weAppService.getGoods(param), HttpStatus.OK);
 	}
 
