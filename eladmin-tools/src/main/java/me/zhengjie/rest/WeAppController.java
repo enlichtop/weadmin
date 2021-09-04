@@ -121,7 +121,7 @@ public class WeAppController {
 	}
 
 	/**
-	 * 获取优惠券
+	 * 获取注意
 	 * @return
 	 */
 	@ApiIgnore
@@ -131,6 +131,19 @@ public class WeAppController {
 	public ResponseEntity<Map> getNotice() {
 		return new ResponseEntity<>(weAppService.getNotice(), HttpStatus.OK);
 	}
+
+	/**
+	 * 获取注意详情
+	 * @return
+	 */
+	@ApiIgnore
+	@RequestMapping("/notice/detail")
+	@AnonymousAccess
+	@ApiOperation("获取注意详情")
+	public ResponseEntity<Map> getNoticeDetail() {
+		return new ResponseEntity<>(weAppService.getNoticeDetail(), HttpStatus.OK);
+	}
+
 
 	/**
 	 * 获取商品详情

@@ -71,199 +71,224 @@ public class WeAppServiceImpl implements WeAppService {
         List<WeAppConfigDto> mapResult = result.stream().map(configMapper::toDto).collect(Collectors.toList());
 
         ArrayList dataList = new ArrayList();
-	    for (WeAppConfigDto weAppConfigDto : mapResult) {
-		    KeyValueVo vo = new KeyValueVo();
-		    vo.setKey(weAppConfigDto.getConfigId());
-		    vo.setValue(weAppConfigDto.getConfigName());
-		    vo.setRemark(weAppConfigDto.getConfigDesc());
-		    vo.setUpdateTime(weAppConfigDto.getUpdateTime());
-		    dataList.add(vo);
-	    }
+        for (WeAppConfigDto weAppConfigDto : mapResult) {
+            KeyValueVo vo = new KeyValueVo();
+            vo.setKey(weAppConfigDto.getConfigId());
+            vo.setValue(weAppConfigDto.getConfigName());
+            vo.setRemark(weAppConfigDto.getConfigDesc());
+            vo.setUpdateTime(weAppConfigDto.getUpdateTime());
+            dataList.add(vo);
+        }
         HashMap retMap = new HashMap();
         retMap.put("code", 0);
         retMap.put("data",dataList);
         return retMap;
     }
 
-	@Override
-	public Map getBanner(String type) {
-		LinkedHashSet<WeAppBanner> banner = bannerRepository.getBannerByType(type);
-		HashMap retMap = new HashMap();
-		retMap.put("code", 0);
-		List<WeAppBannerDto> collect = banner.stream().map(bannerMapper::toDto).collect(Collectors.toList());
-		retMap.put("data",collect);
+    @Override
+    public Map getBanner(String type) {
+        LinkedHashSet<WeAppBanner> banner = bannerRepository.getBannerByType(type);
+        HashMap retMap = new HashMap();
+        retMap.put("code", 0);
+        List<WeAppBannerDto> collect = banner.stream().map(bannerMapper::toDto).collect(Collectors.toList());
+        retMap.put("data",collect);
 
-		if (collect.size() == 0) {
-			retMap.put("code", 0);
-		}
-		return retMap;
-	}
+        if (collect.size() == 0) {
+            retMap.put("code", 0);
+        }
+        return retMap;
+    }
 
-	@Override
-	public Map getAllCategory() {
-		LinkedHashSet<WeAppCategory> allCategory = categoryRepository.getAllCategory();
-		HashMap retMap = new HashMap();
-		retMap.put("code", 0);
-		List<WeAppCategoryDto> collect =
-				allCategory.stream().map(categoryMapper::toDto).collect(Collectors.toList());
-		retMap.put("data",collect);
+    @Override
+    public Map getAllCategory() {
+        LinkedHashSet<WeAppCategory> allCategory = categoryRepository.getAllCategory();
+        HashMap retMap = new HashMap();
+        retMap.put("code", 0);
+        List<WeAppCategoryDto> collect =
+                allCategory.stream().map(categoryMapper::toDto).collect(Collectors.toList());
+        retMap.put("data",collect);
 
-		if (collect.size() == 0) {
-			retMap.put("code", -1);
-		}
+        if (collect.size() == 0) {
+            retMap.put("code", -1);
+        }
 
-		retMap.put("message", "success");
-		return retMap;
-	}
+        retMap.put("message", "success");
+        return retMap;
+    }
 
-	@Override
-	public Map getGoods(Map<String, String> goodsType) {
-		LinkedHashSet<WeAppGoods> goods = null;
-    	if ("1".equalsIgnoreCase(goodsType.get("recommendStatus"))) {
-		    goods = goodsRepository.getRecomGoods();
-	    } else {
-			int page = 0;
-			if (goodsType.get("page") != null) {
-    			page = Integer.parseInt(goodsType.get("page")) - 1;
-			}
-			int pageSize = 10;
-			if (goodsType.get("pageSize") != null) {
-				pageSize = Integer.parseInt(goodsType.get("pageSize"));
-			}
-			String categoryId = goodsType.get("categoryId");
-			if (!StringUtils.isEmpty(categoryId)) {
-				goods = goodsRepository.getGoodsPageAndCate(page * pageSize, pageSize, categoryId);
-			} else {
-				goods = goodsRepository.getRecomGoodsPage(page * pageSize, pageSize);
-			}
-	    }
-		HashMap retMap = new HashMap();
-		retMap.put("code", 0);
-		List<WeAppGoodsDto> collect =
-				goods.stream().map(goodsMapper::toDto).collect(Collectors.toList());
-		retMap.put("data",collect);
+    @Override
+    public Map getGoods(Map<String, String> goodsType) {
+        LinkedHashSet<WeAppGoods> goods = null;
+        if ("1".equalsIgnoreCase(goodsType.get("recommendStatus"))) {
+            goods = goodsRepository.getRecomGoods();
+        } else {
+            int page = 0;
+            if (goodsType.get("page") != null) {
+                page = Integer.parseInt(goodsType.get("page")) - 1;
+            }
+            int pageSize = 10;
+            if (goodsType.get("pageSize") != null) {
+                pageSize = Integer.parseInt(goodsType.get("pageSize"));
+            }
+            String categoryId = goodsType.get("categoryId");
+            if (!StringUtils.isEmpty(categoryId)) {
+                goods = goodsRepository.getGoodsPageAndCate(page * pageSize, pageSize, categoryId);
+            } else {
+                goods = goodsRepository.getRecomGoodsPage(page * pageSize, pageSize);
+            }
+        }
+        HashMap retMap = new HashMap();
+        retMap.put("code", 0);
+        List<WeAppGoodsDto> collect =
+                goods.stream().map(goodsMapper::toDto).collect(Collectors.toList());
+        retMap.put("data",collect);
 
-		if (collect.size() == 0) {
-			retMap.put("code", -1);
-		}
+        retMap.put("message", "success");
+        if (collect.size() == 0) {
+            retMap.put("code", 700);
+            retMap.put("message", "暂无数据");
+        }
 
-		retMap.put("message", "success");
-		return retMap;
-	}
+        return retMap;
+    }
 
-	@Override
-	public Map getCoupons() {
-		LinkedHashSet<WeAppCoupons> coupons = couponsRepository.getCoupons();
-		HashMap retMap = new HashMap();
-		retMap.put("code", 0);
-		List<WeAppCouponsDto> collect =
-				coupons.stream().map(couponsMapper::toDto).collect(Collectors.toList());
-		retMap.put("data",collect);
+    @Override
+    public Map getCoupons() {
+        LinkedHashSet<WeAppCoupons> coupons = couponsRepository.getCoupons();
+        HashMap retMap = new HashMap();
+        retMap.put("code", 0);
+        List<WeAppCouponsDto> collect =
+                coupons.stream().map(couponsMapper::toDto).collect(Collectors.toList());
+        retMap.put("data",collect);
 
-		if (collect.size() == 0) {
-			retMap.put("code", -1);
-		}
+        if (collect.size() == 0) {
+            retMap.put("code", -1);
+        }
 
-		retMap.put("message", "success");
-		return retMap;
-	}
+        retMap.put("message", "success");
+        return retMap;
+    }
 
-	@Override
-	public Map getNotice() {
-		LinkedHashSet<WeAppNotice> coupons = noticeRepository.getNotice();
-		HashMap retMap = new HashMap();
-		retMap.put("code", 0);
-		List<WeAppNoticeDto> collect =
-				coupons.stream().map(noticeMapper::toDto).collect(Collectors.toList());
-		HashMap retData = new HashMap();
-		retData.put("dataList", collect);
-		retData.put("totalRow", collect.size());
-		retData.put("totalPage", collect.size());
-		retMap.put("data",retData);
+    @Override
+    public Map getNotice() {
+        LinkedHashSet<WeAppNotice> coupons = noticeRepository.getNotice();
+        HashMap retMap = new HashMap();
+        retMap.put("code", 0);
+        List<WeAppNoticeDto> collect =
+                coupons.stream().map(noticeMapper::toDto).collect(Collectors.toList());
+        HashMap retData = new HashMap();
+        retData.put("dataList", collect);
+        retData.put("totalRow", collect.size());
+        retData.put("totalPage", collect.size());
+        retMap.put("data",retData);
 
-		if (collect.size() == 0) {
-			retMap.put("code", -1);
-		}
+        if (collect.size() == 0) {
+            retMap.put("code", -1);
+        }
 
-		retMap.put("message", "success");
-		return retMap;
-	}
+        retMap.put("message", "success");
+        return retMap;
+    }
 
-	@Override
-	public Map getGoodsDetail(String goodsId) throws Exception {
-		LinkedHashSet<WeAppGoods> goods = goodsRepository.getGoodsById(goodsId);
-		HashMap retMap = new HashMap();
-		retMap.put("code", 0);
-		List<WeAppGoodsDto> collect =
-				goods.stream().map(goodsMapper::toDto).collect(Collectors.toList());
-		if (collect.size() == 0) {
-			throw new Exception();
-		}
+    @Override
+    public Map getGoodsDetail(String goodsId) throws Exception {
+        LinkedHashSet<WeAppGoods> goods = goodsRepository.getGoodsById(goodsId);
+        HashMap retMap = new HashMap();
+        retMap.put("code", 0);
+        List<WeAppGoodsDto> collect =
+                goods.stream().map(goodsMapper::toDto).collect(Collectors.toList());
+        if (collect.size() == 0) {
+            throw new Exception();
+        }
 
-		LinkedHashSet<WeAppCategory> cate = categoryRepository.getCateById(collect.get(0).getCategoryId());
-		List<WeAppCategoryDto> cateCollect =
-				cate.stream().map(categoryMapper::toDto).collect(Collectors.toList());
+        LinkedHashSet<WeAppCategory> cate = categoryRepository.getCateById(collect.get(0).getCategoryId());
+        List<WeAppCategoryDto> cateCollect =
+                cate.stream().map(categoryMapper::toDto).collect(Collectors.toList());
 
-		HashMap retData = new HashMap();
-		retData.put("basicInfo", collect.get(0));
-		retData.put("category", cateCollect.get(0));
-		retData.put("content", "<p><img src=\"http://enlich.top:8009/img/f001.jpg\" alt=\"\" />" +
-				"<img src=\"http://enlich.top:8009/img/f002.jpg\"" +
-				" alt=\"WiFi打印机优点\" /><img src=\"http://enlich.top:8009/img/f003.jpg\" " +
-				"alt=\"飞鹅打印机5大优势。优势一：智能自动接单，自动打印服务\" />" +
-				"<img src=\"http://enlich.top:8009/img/f004.jpg\" " +
-				"alt=\"优势二：无需手机、电脑、驱动，简单便利。优势三：稳定云服务器，技术团体监控\" />" +
-				"<img src=\"http://enlich.top:8009/img/f005.jpg\" " +
-				"alt=\"优势四：支持多种开发语言，技术对接。优势五：云打印不受地理位置与距离影响\" />" +
-				"<img src=\"\" " +
-				"alt=\"产品细节特色：简单明了按钮与指示灯\" />" +
-				"<img src=\"\" " +
-				"alt=\"WiFi背面图操作说明\" />" +
-				"<img src=\"\" " +
-				"alt=\"高效｜环保热敏打印头\" />" +
-				"<img src=\"\" " +
-				"alt=\"简洁｜便利易装纸设计\" />" +
-				"<img src=\"\" " +
-				"alt=\"安全｜自动多种切纸款式\" />" +
-				"<img src=\"\" " +
-				"alt=\"产品实拍\" /></p>");
-		retData.put("extJson", "");
-		retData.put("logistics", "");
-		retData.put("pics", "");
-		retData.put("pics2", "");
+        HashMap retData = new HashMap();
+        retData.put("basicInfo", collect.get(0));
+        retData.put("category", cateCollect.get(0));
+        retData.put("content", "<h3><img src=\"http://enlich.top:8009/img/f001.jpg\" alt=\"\" />" +
+                "<img src=\"http://enlich.top:8009/img/f002.jpg\"" +
+                " alt=\"WiFi打印机优点\" /><img src=\"http://enlich.top:8009/img/f003.jpg\" " +
+                "alt=\"飞鹅打印机5大优势。优势一：智能自动接单，自动打印服务\" />" +
+                "<img src=\"http://enlich.top:8009/img/f004.jpg\" " +
+                "alt=\"优势二：无需手机、电脑、驱动，简单便利。优势三：稳定云服务器，技术团体监控\" />" +
+                "<img src=\"http://enlich.top:8009/img/f005.jpg\" " +
+                "alt=\"优势四：支持多种开发语言，技术对接。优势五：云打印不受地理位置与距离影响\" />" +
+                "<img src=\"\" " +
+                "alt=\"产品细节特色：简单明了按钮与指示灯\" />" +
+                "<img src=\"\" " +
+                "alt=\"WiFi背面图操作说明\" />" +
+                "<img src=\"\" " +
+                "alt=\"高效｜环保热敏打印头\" />" +
+                "<img src=\"\" " +
+                "alt=\"简洁｜便利易装纸设计\" />" +
+                "<img src=\"\" " +
+                "alt=\"安全｜自动多种切纸款式\" />" +
+                "<img src=\"\" " +
+                "alt=\"产品实拍\" /></h3>");
+        retData.put("extJson", "");
+        retData.put("logistics", "");
+        retData.put("pics", "");
+        retData.put("pics2", "");
 
-		HashMap<String, Object> proHashMap1 = new HashMap<>();
-		proHashMap1.put("name", "4G");
-		HashMap<String, Object> proHashMap2 = new HashMap<>();
-		proHashMap2.put("name", "5G");
-		ArrayList faList1 = new ArrayList();
-		faList1.add(proHashMap1);
-		faList1.add(proHashMap2);
-		HashMap<String, Object> faMap1 = new HashMap<>();
-		faMap1.put("childsCurGoods", faList1);
-		faMap1.put("name", "网络类型");
+        HashMap<String, Object> proHashMap1 = new HashMap<>();
+        proHashMap1.put("name", "4G");
+        HashMap<String, Object> proHashMap2 = new HashMap<>();
+        proHashMap2.put("name", "5G");
+        ArrayList faList1 = new ArrayList();
+        faList1.add(proHashMap1);
+        faList1.add(proHashMap2);
+        HashMap<String, Object> faMap1 = new HashMap<>();
+        faMap1.put("childsCurGoods", faList1);
+        faMap1.put("name", "网络类型");
 
-		ArrayList proRetList = new ArrayList();
-		proRetList.add(faMap1);
-		retData.put("properties", proRetList);
+        ArrayList proRetList = new ArrayList();
+        proRetList.add(faMap1);
+        retData.put("properties", proRetList);
 
-		LinkedHashSet<WeAppSkuList> skuList = skuListRepository.getSkuList(goodsId);
-		retData.put("skuList", skuList);
-		retMap.put("data",retData);
+        LinkedHashSet<WeAppSkuList> skuList = skuListRepository.getSkuList(goodsId);
+        retData.put("skuList", skuList);
+        retMap.put("data",retData);
 
-		if (collect.size() == 0) {
-			retMap.put("code", -1);
-		}
+        if (collect.size() == 0) {
+            retMap.put("code", -1);
+        }
 
-		retMap.put("message", "success");
-		return retMap;
-	}
-
+        retMap.put("message", "success");
+        return retMap;
+    }
 
 
-	@Override
-	public Map getSkuList(String goodsId) {
-		return null;
-	}
+
+    @Override
+    public Map getSkuList(String goodsId) {
+        return null;
+    }
+
+    @Override
+    public Map getNoticeDetail() {
+
+
+        HashMap<String, Object> retMap = new HashMap<>();
+
+        HashMap<String, String> dataMap = new HashMap<>();
+        dataMap.put("content", "<h1>中国人民政治协商会议第十届梁山县委员会第五次会议开幕</h1>" +
+                "<img src=\"http://www.liangshan.gov.cn/picture/-1/e4c0e08d6d4e4c94b6ceaab716fec6ca.png\">" +
+                "<h3>&nbsp;&nbsp;&nbsp;&nbsp;2月3日上午9:00时，中国人民政治协商会议第十届梁山县委员会第五次会议在梁山会堂隆重开幕。</br>\n" +
+                "&nbsp;&nbsp;&nbsp;&nbsp;县领导贾治阜、杨力新、秦延信、楚宪海、刘勇、李文凯、周菊兰、窦令胜、刘征、王学灵、刘超波、梁开平、" +
+                "于安玲、孔祥华，县政协秘书长宋秀梅在主席台前排就座。在主席台就座的还有县法院院长李士强、" +
+                "县人民检察院检察长周文军，往届部分县政协主席、副主席、秘书长，驻梁省、市政协委员、" +
+                "县政协特邀文史研究员、县直有关部门单位负责人应邀出席大会。</br>\n" +
+                "&nbsp;&nbsp;&nbsp;&nbsp;县政协党组副书记刘超波主持开幕式。</br>\n" +
+                "&nbsp;&nbsp;&nbsp;&nbsp;县委书记贾治阜代表县委向大会致以热烈的祝贺并讲话。</br>\n" +
+                "&nbsp;&nbsp;&nbsp;&nbsp;县政协主席楚宪海向大会作中国人民政治协商会议第十届梁山县委员会常务委员会工作报告。</br>\n" +
+                "&nbsp;&nbsp;&nbsp;&nbsp;县政协副主席孔祥华作中国人民政治协商会议第十届梁山县委员会常务委员会关于四次会议以来提案工作情况的报告。 </h3>");
+        dataMap.put("title", "中国人民政治协商会议第十届梁山县委员会第五次会议开幕");
+        retMap.put("data", dataMap);
+        retMap.put("code", 0);
+        return retMap;
+    }
 
 }

@@ -77,4 +77,10 @@ public interface WeAppService {
      * 获取商品类型
      */
     Map getSkuList(String goodsId);
+
+    /**
+     * 获取注意详情
+     * @return
+     */
+    Map getNoticeDetail();
 }
