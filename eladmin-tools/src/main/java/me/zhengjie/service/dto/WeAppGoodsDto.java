@@ -3,6 +3,7 @@ package me.zhengjie.service.dto;
 import lombok.Getter;
 import lombok.Setter;
 import me.zhengjie.base.BaseDTO;
+import me.zhengjie.domain.WeAppGoodsDetail;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
@@ -76,4 +77,5 @@ public class WeAppGoodsDto extends BaseDTO implements Serializable {
 	private Integer views;
 	private Integer weight;
 	private Integer brandId;
+	private WeAppGoodsDetail goodsDetailObj;
 }

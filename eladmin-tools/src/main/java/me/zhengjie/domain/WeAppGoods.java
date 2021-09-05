@@ -77,6 +77,10 @@ public class WeAppGoods {
 	private Integer weight;
 	private Integer brandId;
 
+	private String goodsDetail;
+
+    private WeAppGoodsDetail goodsDetailObj;
+
 	@Basic
 	@Column(name = "AFTERSALE")
 	public String getAfterSale() {
@@ -651,6 +655,26 @@ public class WeAppGoods {
 	@Column(name = "BRANDID")
 	public Integer getBrandId() {
 		return brandId;
+	}
+
+	@Basic
+	@Column(name = "GOODSDETAIL")
+	public String getGoodsDetail() {
+		return goodsDetail;
+	}
+
+	public void setGoodsDetail(String goodsDetail) {
+		this.goodsDetail = goodsDetail;
+	}
+
+	@OneToOne
+	@JoinColumn(name = "GOODSDETAIL", referencedColumnName = "id", insertable = false, updatable = false)
+	public WeAppGoodsDetail getGoodsDetailObj() {
+		return goodsDetailObj;
+	}
+
+	public void setGoodsDetailObj(WeAppGoodsDetail goodsDetailObj) {
+		this.goodsDetailObj = goodsDetailObj;
 	}
 
 	public void setBrandId(Integer brandId) {
