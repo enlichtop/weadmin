@@ -157,4 +157,17 @@ public class WeAppController {
 		String goodsId = request.getParameter("id");
 		return new ResponseEntity<>(weAppService.getGoodsDetail(goodsId), HttpStatus.OK);
 	}
+
+	/**
+	 * 获取商品附加信息
+	 * @return
+	 */
+	@ApiIgnore
+	@RequestMapping("/shop/goods/goodsAddition")
+	@AnonymousAccess
+	@ApiOperation("获取商品附加信息")
+	public ResponseEntity<Map> getGoodsAddition(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String goodsId = request.getParameter("id");
+		return new ResponseEntity<>(weAppService.getGoodsAddition(goodsId), HttpStatus.OK);
+	}
 }

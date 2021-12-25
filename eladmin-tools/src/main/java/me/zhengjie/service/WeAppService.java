@@ -74,6 +74,13 @@ public interface WeAppService {
     Map getGoodsDetail(String goodsId) throws Exception;
 
     /**
+     * 获取商品附加信息
+     * @param goodsId
+     * @return
+     */
+    Map getGoodsAddition(String goodsId);
+
+    /**
      * 获取商品类型
      */
     Map getSkuList(String goodsId);

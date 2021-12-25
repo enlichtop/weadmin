@@ -16,6 +16,7 @@
 package me.zhengjie.service.impl;
 
 import com.alibaba.druid.util.StringUtils;
+import com.alibaba.fastjson.JSON;
 import lombok.RequiredArgsConstructor;
 import me.zhengjie.domain.*;
 import me.zhengjie.domain.vo.KeyValueVo;
@@ -214,21 +215,22 @@ public class WeAppServiceImpl implements WeAppService {
         retData.put("pics", "");
         retData.put("pics2", "");
 
-        HashMap<String, Object> proHashMap1 = new HashMap<>();
-        proHashMap1.put("name", "4G");
+/*        HashMap<String, Object> proHashMap1 = new HashMap<>();
+        proHashMap1.put("name", "1瓶(500ml)");
         HashMap<String, Object> proHashMap2 = new HashMap<>();
-        proHashMap2.put("name", "5G");
+        proHashMap2.put("name", "1箱(6 * 500l)");
         ArrayList faList1 = new ArrayList();
         faList1.add(proHashMap1);
         faList1.add(proHashMap2);
         HashMap<String, Object> faMap1 = new HashMap<>();
         faMap1.put("childsCurGoods", faList1);
-        faMap1.put("name", "规格型号");
+        faMap1.put("name", "规格");
 
         ArrayList proRetList = new ArrayList();
         proRetList.add(faMap1);
-        retData.put("properties", proRetList);
-
+        retData.put("properties", proRetList);*/
+        retData.put("properties",
+                JSON.parse(goodsDtos.get(0).getGoodsDetailObj().getGoodsProperties()));
         LinkedHashSet<WeAppSkuList> skuList = skuListRepository.getSkuList(goodsId);
         retData.put("skuList", skuList);
         retMap.put("data",retData);
@@ -241,6 +243,29 @@ public class WeAppServiceImpl implements WeAppService {
         return retMap;
     }
 
+    @Override
+    public Map getGoodsAddition(String goodsId) {
+        HashMap<String, Object> retMap = new HashMap<>();
+        retMap.put("code", 0);
+        ArrayList<HashMap> retList = new ArrayList<>();
+        HashMap<String, Object> infoMap = new HashMap<>();
+        infoMap.put("id", 41);
+        infoMap.put("name", "规格");
+        infoMap.put("price", 1);
+        infoMap.put("pid", 1);
+        HashMap<String, Object> subInfo = new HashMap<>();
+        subInfo.put("id", 41);
+        subInfo.put("name", "自己对接");
+        subInfo.put("pid", 411);
+        subInfo.put("price", 22);
+        ArrayList list= new ArrayList();
+        list.add(subInfo);
+        infoMap.put("items", list);
+        retList.add(infoMap);
+        retMap.put("data", retList);
+        retMap.put("msg", "success");
+        return retMap;
+    }
 
 
     @Override
